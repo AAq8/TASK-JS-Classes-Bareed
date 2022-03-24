@@ -15,13 +15,13 @@ class Point {
     this.y = y;
   }
 
-  distanceTo = point => {
+  distanceTo = (point) => {
     let xDelta = this.x - point.x;
     let yDelta = this.y - point.y;
     return Math.sqrt(xDelta * xDelta + yDelta * yDelta); // PYTHAGORAS!
   };
 
-  equals = point => point.x === this.x && point.y === this.y;
+  equals = (point) => point.x === this.x && point.y === this.y;
 
   static randomPoint = (maxX, maxY) => {
     let x = Math.random() * (maxX || 100);
@@ -43,11 +43,17 @@ class Point {
  **********************************************************/
 class Wallet {
   // implement Wallet!
-  constructor(money = 0) {}
+  constructor(money = 0) {
+    this.money = money;
+  }
 
-  credit = amount => {};
+  credit = (amount) => {
+    this.money += amount;
+  };
 
-  debit = amount => {};
+  debit = (amount) => {
+    this.money -= amount;
+  };
 }
 
 /**********************************************************
@@ -63,6 +69,11 @@ class Wallet {
  **********************************************************/
 class Person {
   // implement Person!
+  constructor(name, x, y) {
+    this.name = name;
+    this.location = new Point(x, y);
+    this.wallet = new Wallet(0);
+  }
 }
 
 /**********************************************************
@@ -80,8 +91,15 @@ class Person {
  *
  * new vendor = new Vendor(name, x, y);
  **********************************************************/
-class Vendor {
+class Vendor extends Person {
   // implement Vendor!
+  constructor(name, x, y) {
+    super(name, x, y, location, Wallet);
+    this.name = name;
+    this.location = new Point(x, y);
+    this.wallet.debit = new Wallet();
+    this.wallet.credit = new Wallet();
+  }
 }
 
 /**********************************************************
